@@ -19,7 +19,7 @@ Here's a sample **docker-compose.yml** to get you started:
         volumes:
               - ./.data:/var/lib/mysql
       test-wp:
-        image: csandeep/centos-php7-apache-wordpress:latest
+        image: csandeep/centos-php7-apache-wordpress-latest:latest
         volumes:
           - ./:/var/www
         ports:
