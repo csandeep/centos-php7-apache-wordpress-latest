@@ -12,6 +12,11 @@ RUN set -ex; \
         libjpeg-turbo-utils.x86_64 \
 		libpng-devel.x86_64 \
         php70-php-pecl-memcache.x86_64 \
+		optipng.x86_64 \
+		jpegoptim.x86_64 \
+		ImageMagick \
+		ImageMagick-devel \
+		php70-php-pecl-imagick.x86_64 \
 	; \
 	yum clean all; \
 	\
