@@ -7,6 +7,7 @@ ENV PATH="/usr/local/bin:${PATH}"
 # install the PHP extensions we need
 RUN set -ex; \
 	\
+	yum makecache fast; \
 	yum install -y \
 		libjpeg-turbo.x86_64 \
         libjpeg-turbo-utils.x86_64 \
@@ -49,12 +50,19 @@ ENV WORDPRESS_VERSION 4.8
 ENV WORDPRESS_SHA1 3738189a1f37a03fb9cb087160b457d7a641ccb4
 
 RUN set -ex; \
+	curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar; \
+	chown www-data:www-data wp-cli.phar; \
+	chmod 4755 wp-cli.phar; \
+	mv wp-cli.phar /usr/local/bin/wp
+
+RUN set -ex; \
 	curl -o wordpress.tar.gz -fSL "https://wordpress.org/wordpress-${WORDPRESS_VERSION}.tar.gz"; \
 	echo "$WORDPRESS_SHA1 *wordpress.tar.gz" | sha1sum -c -; \
 # upstream tarballs include ./wordpress/ so this gives us /usr/src/wordpress
 	tar -xzf wordpress.tar.gz -C /usr/src/; \
 	rm wordpress.tar.gz; \
 	chown -R www-data:www-data /usr/src/wordpress
+
 
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN set -ex; \
