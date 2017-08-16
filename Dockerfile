@@ -18,6 +18,7 @@ RUN set -ex; \
 		ImageMagick \
 		ImageMagick-devel \
 		php70-php-pecl-imagick.x86_64 \
+		php70-php-pecl-xdebug.x86_64 \
 	; \
 	yum clean all; \
 	\
@@ -41,6 +42,17 @@ RUN { \
 		echo 'opcache.fast_shutdown=1'; \
 		echo 'opcache.enable_cli=1'; \
 	} > /etc/php.d/opcache-recommended.ini
+
+
+RUN { \
+	echo 'xdebug.remote_enable=on'; \
+	echo 'xdebug.remote_autostart=on'; \
+	echo 'xdebug.remote_connect_back=off'; \
+	echo 'xdebug.remote_handler=dbgp'; \
+	echo 'xdebug.profiler_enable=0'; \
+	echo 'xdebug.profiler_output_dir="/var/www/html"'; \
+	echo 'xdebug.remote_port=9000'; \
+	} >> /etc/php.d/15-xdebug.ini
 
 #RUN a2enmod rewrite expires
 
